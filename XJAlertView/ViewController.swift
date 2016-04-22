@@ -24,7 +24,11 @@ class ViewController: UIViewController {
     }
    
     @IBAction func bb(sender: AnyObject) {
-        let b = CHAlertView(options: ["导入睿宝病历","创建新病例"], style: .SingleSelect)
+        let b = CHAlertView(options: ["asd","asd","asd","asd","asd"], confirm: { (alertView) in
+            print(alertView)
+            }) { (alertView) in
+                print(alertView.selectIndex)
+        }
         b.showAlert { 
             print("显示完成")
         }

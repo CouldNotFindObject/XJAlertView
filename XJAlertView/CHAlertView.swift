@@ -20,16 +20,22 @@ class CHAlertView: UIView {
     var options:[String] = []
     let shadowImageView = UIImageView(image: UIImage(named: "Shadow"))
     var mainView: UIView!
+    var cancelBlock: ((alertView:CHAlertView)-> Void)?
+    var confirmBlock: ((alertView:CHAlertView)-> Void)?
+    var selectIndex:Int = -1
     private var isShown:Bool = false
     private var btns: [UIButton] = []
     private override init(frame: CGRect) {
         super.init(frame: frame)
         setUI(.Default)
     }
-    init(options:[String], style:CHAlertStyle) {
+    
+    init(options:[String], confirm: ((alertView:CHAlertView)-> Void)?, cancel: ((alertView:CHAlertView)-> Void)?) {
         self.options = options
         super.init(frame: UIScreen.mainScreen().bounds)
-        setUI(style)
+        cancelBlock = cancel
+        confirmBlock = confirm
+        setUI(.SingleSelect)
         
     }
     
@@ -85,6 +91,7 @@ class CHAlertView: UIView {
             confirmBtn.setBackgroundImage(UIImage(named: "CHConfirmBg"), forState: UIControlState.Normal)
             confirmBtn.setTitleColor(UIColor.whiteColor(), forState: .Normal)
             confirmBtn.frame = CGRectMake(mainView.bounds.size.width - 48 - 60, mainView.bounds.size.height - 46 , 60, 30)
+            confirmBtn.addTarget(self, action: #selector(confirmBtnAction(_:)), forControlEvents: .TouchUpInside)
             mainView.addSubview(confirmBtn)
             if btns.count > 0 {
                 
@@ -103,9 +110,25 @@ class CHAlertView: UIView {
             btn.setImage(UIImage(named: "Oval 281"), forState: .Normal)
         }
         sender.setImage(UIImage(named: "iconfont-duigou"), forState: .Normal)
+        selectIndex = sender.tag - 2000
     }
     func cancelBtnAction(sender:UIButton) {
+        
         hideAlert(nil)
+        if let cacel = cancelBlock {
+            cacel(alertView: self)
+        }
+
+    }
+    func confirmBtnAction(sender:UIButton) {
+        
+        hideAlert(nil)
+        if let cacel = cancelBlock {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.41 * Double(NSEC_PER_SEC))), dispatch_get_main_queue() , {
+                
+                cacel(alertView: self)
+            })
+        }
         
     }
     
@@ -130,19 +153,18 @@ class CHAlertView: UIView {
     private func showAnimate(comple:()-> Void) {
         self.mainView.center = CGPointMake(UIScreen.mainScreen().bounds.width/2, UIScreen.mainScreen().bounds.height + mainView.frame.height/2)
 
-        UIView.animateWithDuration(0.5, animations: {
-            
+        UIView.animateWithDuration(0.2, animations: {
+            self.isShown = true
+
             self.mainView.center = CGPointMake(UIScreen.mainScreen().bounds.width/2, UIScreen.mainScreen().bounds.height/2 - 30)
             }) { (compeltion) in
                 if compeltion {
-                    UIView.animateWithDuration(0.4, animations: {
+                    UIView.animateWithDuration(0.1, animations: {
                         self.mainView.center = CGPointMake(UIScreen.mainScreen().bounds.width/2, UIScreen.mainScreen().bounds.height/2 + 20)
 
                         }, completion: { (compeltion) in
-                            if compeltion {
-                                UIView.animateWithDuration(0.3, animations: {
+                                UIView.animateWithDuration(0.1, animations: {
                                     self.mainView.center = CGPointMake(UIScreen.mainScreen().bounds.width/2, UIScreen.mainScreen().bounds.height/2 )
-                                    self.isShown = true
                                     }, completion: { (complete) in
                                         if complete {
                                             comple()
@@ -150,7 +172,6 @@ class CHAlertView: UIView {
                                         }
                                 })
 
-                            }
                     })
                 }
         }
@@ -173,11 +194,11 @@ class CHAlertView: UIView {
     }
     
     private  func hideAnimate(completion:()-> Void) {
-        UIView.animateWithDuration(0.03, animations: {
+        UIView.animateWithDuration(0.3, animations: {
             self.mainView.center = CGPointMake(UIScreen.mainScreen().bounds.width/2, UIScreen.mainScreen().bounds.height/2 - 40)
         }) { (compeltion) in
             if compeltion {
-                UIView.animateWithDuration(0.01, animations: {
+                UIView.animateWithDuration(0.1, animations: {
                     self.mainView.center = CGPointMake(UIScreen.mainScreen().bounds.width/2, UIScreen.mainScreen().bounds.height + self.mainView.frame.height/2)
                     
                     }, completion: { (compeltion) in
