@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AFNetworking
 
 class ViewController: UIViewController {
 
@@ -33,12 +32,6 @@ class ViewController: UIViewController {
             print("显示完成")
         }
         b.showAlert(nil)
-//        let mgr = AFHTTPSessionManager()
-//        mgr.GET(((NSString(string: "http://172.16.0.14:8080/rest/cases/3/2016-04-21 16:48:27")).stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding))! as String, parameters: nil, success: { (NSURLSessionDataTask, AnyObject) in
-//            print(AnyObject)
-//            }) { (NSURLSessionDataTask, NSError) in
-//                print(NSError)
-//        }
     }
 
 }
