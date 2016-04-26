@@ -15,6 +15,8 @@ enum CHAlertStyle {
     /// 电话验证码弹出框
     case Phone
     /// 默认
+    case Success
+    /// 默认
     case Default
 }
 class CHAlertView: UIView {
@@ -28,9 +30,15 @@ class CHAlertView: UIView {
     var cancelBlock: ((alertView:CHAlertView)-> Void)?//取消button 回调
     var confirmBlock: ((alertView:CHAlertView)-> Void)?//确认button 回调
     var selectIndex:Int = -1 //如果为-1是没有选择,如果为正数是选择的第几个
-    var securityMode = false
-    var phoneNumer = ""
-    var tf:UITextField?
+    var securityMode = false //手机号中间四位是否为星号
+    var phoneNumer = "" //手机号
+    var checkNumTf:UITextField? //验证码输入框
+    var timerBtn:UIButton? //倒计时Button
+    var confirmBtn:UIButton? //确认button
+    var successInfo:String? //成功提示信息
+    var cancelTitle:String? //取消button的title
+    var confirmTitle:String? //确认button的title
+    
     private var isShown:Bool = false //判断是否出现
     private var btns: [UIButton] = [] //保存所有的单选button
     private override init(frame: CGRect) {
@@ -49,19 +57,59 @@ class CHAlertView: UIView {
      */
     init(options:[String], confirm: ((alertView:CHAlertView)-> Void)?, cancel: ((alertView:CHAlertView)-> Void)?) {
         self.options = options
+        sty = .SingleSelect
         super.init(frame: UIScreen.mainScreen().bounds)
         cancelBlock = cancel
         confirmBlock = confirm
         setUI(.SingleSelect)
         
     }
-    
+    /**
+     发送验证码模式
+     
+     - parameter phone:        电话号码
+     - parameter securityMode: 是否显示星号
+     - parameter confirm:      点击确认
+     
+     - returns: <#return value description#>
+     */
     init(phone:String, securityMode:Bool,confirm: ((alertView:CHAlertView)-> Void)?) {
         super.init(frame: UIScreen.mainScreen().bounds)
         confirmBlock = confirm
         phoneNumer = phone
+        sty = .Phone
         self.securityMode = securityMode
         setUI(.Phone)
+    }
+    
+    /**
+     成功提示框
+     
+     - parameter successInfo: 提示具体信息
+     
+     - returns: <#return value description#>
+     */
+    init(successInfo:String?) {
+        super.init(frame: UIScreen.mainScreen().bounds)
+        self.successInfo = successInfo
+        sty = .Success
+        setUI(.Success)
+        
+    }
+    
+    /**未完成*/
+    init(text:String, confirmTilte:String, cancelTitle:String, confirm: ((alertView:CHAlertView)-> Void)?, cancel: ((alertView:CHAlertView)-> Void)?){
+        super.init(frame: UIScreen.mainScreen().bounds)
+        sty = .Default
+        setUI(.Default)
+    }
+    
+    init(text:String, confirm: ((alertView:CHAlertView)-> Void)?){
+        super.init(frame: UIScreen.mainScreen().bounds)
+        sty = .Text
+        confirmBlock = confirm
+        setUI(.Text)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -81,7 +129,23 @@ class CHAlertView: UIView {
         addSubview(mainView)
         switch style {
         case .Default: break
-        case .Text: break
+        case .Text:
+            mainView.frame = CGRectMake(0,0,UIScreen.mainScreen().bounds.width - 50,165)
+            shadowImageView.frame = CGRectMake(-8, -8, mainView.bounds.width + 16, mainView.bounds.height + 16)
+            let textLb = UILabel(frame: CGRectMake(20, 27, mainView.bounds.width - 40, 66))
+            textLb.text = "您输入的信息查询无结果，请核对信息是否和就诊时一致。如有疑问请拨打400-000-000"
+            textLb.font = UIFont.systemFontOfSize(16)
+            textLb.numberOfLines = 0
+            mainView.addSubview(textLb)
+            confirmBtn = UIButton(type: .System)
+            confirmBtn!.setTitle("确定", forState: .Normal)
+            confirmBtn!.titleLabel?.font = UIFont.systemFontOfSize(16)
+            confirmBtn!.setBackgroundImage(UIImage(named: "CHConfirmBg"), forState: UIControlState.Normal)
+            confirmBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            confirmBtn!.frame = CGRectMake(mainView.bounds.size.width / 2 - 45, mainView.bounds.size.height - 46 , 90, 30)
+            confirmBtn!.addTarget(self, action: #selector(confirmBtnAction(_:)), forControlEvents: .TouchUpInside)
+            mainView.addSubview(confirmBtn!)
+            
         case .SingleSelect:
             for (index, title) in options.enumerate() {
                 let btn = UIButton(type: .Custom)
@@ -110,14 +174,14 @@ class CHAlertView: UIView {
             cancelBtn.addTarget(self, action: #selector(cancelBtnAction(_:)), forControlEvents: .TouchUpInside)
             mainView.addSubview(cancelBtn)
             
-            let confirmBtn = UIButton(type: .System)
-            confirmBtn.setTitle("确定", forState: .Normal)
-            confirmBtn.titleLabel?.font = UIFont.systemFontOfSize(16)
-            confirmBtn.setBackgroundImage(UIImage(named: "CHConfirmBg"), forState: UIControlState.Normal)
-            confirmBtn.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-            confirmBtn.frame = CGRectMake(mainView.bounds.size.width - 48 - 60, mainView.bounds.size.height - 46 , 60, 30)
-            confirmBtn.addTarget(self, action: #selector(confirmBtnAction(_:)), forControlEvents: .TouchUpInside)
-            mainView.addSubview(confirmBtn)
+            confirmBtn = UIButton(type: .System)
+            confirmBtn!.setTitle("确定", forState: .Normal)
+            confirmBtn!.titleLabel?.font = UIFont.systemFontOfSize(16)
+            confirmBtn!.setBackgroundImage(UIImage(named: "CHConfirmBg"), forState: UIControlState.Normal)
+            confirmBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            confirmBtn!.frame = CGRectMake(mainView.bounds.size.width - 48 - 60, mainView.bounds.size.height - 46 , 60, 30)
+            confirmBtn!.addTarget(self, action: #selector(confirmBtnAction(_:)), forControlEvents: .TouchUpInside)
+            mainView.addSubview(confirmBtn!)
             if btns.count > 0 {
                 
                 selectBtnAction(btns.first!)
@@ -125,19 +189,54 @@ class CHAlertView: UIView {
         case .Phone:
             mainView.frame = CGRectMake(0,0,UIScreen.mainScreen().bounds.width - 50,165)
             shadowImageView.frame = CGRectMake(-8, -8, mainView.bounds.width + 16, mainView.bounds.height + 16)
-            let titleLb = UILabel(frame: CGRectMake(11, 22,mainView.frame.width - 22 ,22))
+            let titleLb = UILabel(frame: CGRectMake(15, 22,mainView.frame.width - 30 ,22))
             if securityMode {
-                if phoneNumer.characters.count > 10 {
+                if phoneNumer.characters.count == 11 {
                     titleLb.text = "验证码已发送至" + phoneNumer.substringToIndex(phoneNumer.startIndex.advancedBy(3)) + "****" + phoneNumer.substringFromIndex(phoneNumer.startIndex.advancedBy(7))
                 }
             } else {
                 titleLb.text = "验证码已发送至" + phoneNumer
             }
             
-            tf = UITextField(frame: CGRectMake(8,58,181,40))
-            let btn = UIButton(type: UIButtonType.System)
-            btn.frame = CGRectMake(197, 58, 57, 40)
             mainView.addSubview(titleLb)
+            
+            checkNumTf = UITextField(frame: CGRectMake(12,58,mainView.bounds.width - 90,40))
+            checkNumTf?.borderStyle = .RoundedRect
+            mainView.addSubview(checkNumTf!)
+            timerBtn = UIButton(type: UIButtonType.Custom)
+            timerBtn?.frame = CGRectMake(checkNumTf!.frame.size.width + 12 + 8,58,57,40)
+            timerBtn?.setTitle("53秒", forState: UIControlState.Normal)
+            timerBtn?.setBackgroundImage(UIImage(named: "CHConfirmBg"), forState: UIControlState.Normal)
+            mainView.addSubview(timerBtn!)
+            confirmBtn = UIButton(type: .System)
+            confirmBtn!.setTitle("确定", forState: .Normal)
+            confirmBtn!.titleLabel?.font = UIFont.systemFontOfSize(16)
+            confirmBtn!.setBackgroundImage(UIImage(named: "CHConfirmBg"), forState: UIControlState.Normal)
+            confirmBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            confirmBtn!.frame = CGRectMake(12, mainView.bounds.size.height - 57 , mainView.bounds.size.width - 24, 40)
+            confirmBtn!.addTarget(self, action: #selector(confirmBtnAction(_:)), forControlEvents: .TouchUpInside)
+            mainView.addSubview(confirmBtn!)
+            
+        case .Success:
+            mainView.frame = CGRectMake(0,0,UIScreen.mainScreen().bounds.width - 50,165)
+            shadowImageView.frame = CGRectMake(-8, -8, mainView.bounds.width + 16, mainView.bounds.height + 16)
+            let successIv = UIImageView(frame: CGRectMake(0, 0, 40, 40))
+            successIv.center = CGPointMake(mainView.center.x, mainView.center.y - 22)
+            successIv.image = UIImage(named: "CHCseHistory_selectedIcon")
+            mainView.addSubview(successIv)
+            
+            let successLb = UILabel(frame: CGRectMake(30, mainView.frame.size.height - 60,mainView.frame.size.width - 60,21))
+            if let infoSucceed = successInfo {
+                
+                successLb.text = infoSucceed
+            } else {
+                successLb.text = "导入成功!"
+            }
+            successLb.textAlignment = .Center
+            successLb.font = UIFont.systemFontOfSize(15)
+            successLb.textColor = UIColor(red: 6.0 / 255, green: 192/255.0, blue: 200/255.0, alpha: 1)
+
+            mainView.addSubview(successLb)
             
         }
         sendSubviewToBack(backView)
@@ -218,8 +317,15 @@ class CHAlertView: UIView {
                     
                     }, completion: { (compeltion) in
                         if compeltion {
-                            comple()
                             self.isShown = true
+                            if self.sty == .Success {
+                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.4 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+                                    comple()
+                                    self.hideAlert()
+                                })
+                            } else {
+                                comple()
+                            }
                         }
                         
                         
@@ -239,6 +345,16 @@ class CHAlertView: UIView {
                     
                 })
             }
+        } else {
+            
+        }
+    }
+    func hideAlert() {
+        if isShown {
+            hideAnimate({
+                
+            })
+            
         } else {
             
         }

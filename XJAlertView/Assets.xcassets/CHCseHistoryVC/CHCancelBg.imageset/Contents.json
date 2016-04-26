@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "CHCancelBg.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Group 10.png",
       "scale" : "2x"
     },
     {

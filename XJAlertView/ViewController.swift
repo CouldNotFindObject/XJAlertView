@@ -24,15 +24,31 @@ class ViewController: UIViewController {
    
     @IBAction func bb(sender: AnyObject) {
         let b = CHAlertView(options: ["asd","asd","asd","asd","asd"], confirm: { (alertView) in
-            print(alertView)
+            print("确认  \(alertView.selectIndex)")
             }) { (alertView) in
-                print(alertView.selectIndex)
+                print("取消  \(alertView.selectIndex)")
         }
         b.showAlert { 
             print("显示完成")
         }
-        b.showAlert(nil)
+    }
+    @IBAction func checkNumAction(sender: AnyObject) {
+        let a = CHAlertView(phone: "13399991234", securityMode: true) { (alertView) in
+            print("点击了确认")
+        }
+        a.showAlert()
+    }
+    @IBAction func successAction(sender: AnyObject) {
+        let a = CHAlertView(successInfo: "成功啦!!")
+        a.showAlert()
     }
 
+    @IBAction func showTextAction(sender: AnyObject) {
+        let a = CHAlertView(text: "") { (alertView) in
+            print("一大堆文字")
+        }
+        a.showAlert()
+
+    }
 }
 

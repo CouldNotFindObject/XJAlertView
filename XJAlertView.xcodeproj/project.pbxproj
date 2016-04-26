@@ -12,17 +12,7 @@
 		A1F174281CC87FFE000C603A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1F174261CC87FFE000C603A /* Main.storyboard */; };
 		A1F1742A1CC87FFE000C603A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1F174291CC87FFE000C603A /* Assets.xcassets */; };
 		A1F1742D1CC87FFE000C603A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1F1742B1CC87FFE000C603A /* LaunchScreen.storyboard */; };
-		A1F174431CC8A05E000C603A /* iconfont-duigou@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F1743B1CC8A05E000C603A /* iconfont-duigou@2x.png */; };
-		A1F174441CC8A05E000C603A /* iconfont-duigou@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F1743C1CC8A05E000C603A /* iconfont-duigou@3x.png */; };
-		A1F174451CC8A05E000C603A /* iconfont-jiancharenyuan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F1743D1CC8A05E000C603A /* iconfont-jiancharenyuan@2x.png */; };
-		A1F174461CC8A05E000C603A /* iconfont-jiancharenyuan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F1743E1CC8A05E000C603A /* iconfont-jiancharenyuan@3x.png */; };
-		A1F174471CC8A05E000C603A /* iconfont-tianjia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F1743F1CC8A05E000C603A /* iconfont-tianjia@2x.png */; };
-		A1F174481CC8A05E000C603A /* iconfont-tianjia@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F174401CC8A05E000C603A /* iconfont-tianjia@3x.png */; };
-		A1F174491CC8A05E000C603A /* Oval 281@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F174411CC8A05E000C603A /* Oval 281@2x.png */; };
-		A1F1744A1CC8A05E000C603A /* Oval 281@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F174421CC8A05E000C603A /* Oval 281@3x.png */; };
 		A1F1744C1CC8A3B1000C603A /* CHAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F1744B1CC8A3B1000C603A /* CHAlertView.swift */; };
-		A1F1744F1CC8BBAC000C603A /* CHCancelBg.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F1744D1CC8BBAC000C603A /* CHCancelBg.png */; };
-		A1F174501CC8BBAC000C603A /* CHConfirmBg.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F1744E1CC8BBAC000C603A /* CHConfirmBg.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,17 +23,7 @@
 		A1F174291CC87FFE000C603A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1F1742C1CC87FFE000C603A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1F1742E1CC87FFE000C603A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A1F1743B1CC8A05E000C603A /* iconfont-duigou@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconfont-duigou@2x.png"; path = "病历iOS切图/iconfont-duigou@2x.png"; sourceTree = "<group>"; };
-		A1F1743C1CC8A05E000C603A /* iconfont-duigou@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconfont-duigou@3x.png"; path = "病历iOS切图/iconfont-duigou@3x.png"; sourceTree = "<group>"; };
-		A1F1743D1CC8A05E000C603A /* iconfont-jiancharenyuan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconfont-jiancharenyuan@2x.png"; path = "病历iOS切图/iconfont-jiancharenyuan@2x.png"; sourceTree = "<group>"; };
-		A1F1743E1CC8A05E000C603A /* iconfont-jiancharenyuan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconfont-jiancharenyuan@3x.png"; path = "病历iOS切图/iconfont-jiancharenyuan@3x.png"; sourceTree = "<group>"; };
-		A1F1743F1CC8A05E000C603A /* iconfont-tianjia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconfont-tianjia@2x.png"; path = "病历iOS切图/iconfont-tianjia@2x.png"; sourceTree = "<group>"; };
-		A1F174401CC8A05E000C603A /* iconfont-tianjia@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconfont-tianjia@3x.png"; path = "病历iOS切图/iconfont-tianjia@3x.png"; sourceTree = "<group>"; };
-		A1F174411CC8A05E000C603A /* Oval 281@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Oval 281@2x.png"; path = "病历iOS切图/Oval 281@2x.png"; sourceTree = "<group>"; };
-		A1F174421CC8A05E000C603A /* Oval 281@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Oval 281@3x.png"; path = "病历iOS切图/Oval 281@3x.png"; sourceTree = "<group>"; };
 		A1F1744B1CC8A3B1000C603A /* CHAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHAlertView.swift; sourceTree = "<group>"; };
-		A1F1744D1CC8BBAC000C603A /* CHCancelBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CHCancelBg.png; sourceTree = "<group>"; };
-		A1F1744E1CC8BBAC000C603A /* CHConfirmBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CHConfirmBg.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,16 +68,6 @@
 				A1F174241CC87FFE000C603A /* ViewController.swift */,
 				A1F174261CC87FFE000C603A /* Main.storyboard */,
 				A1F174291CC87FFE000C603A /* Assets.xcassets */,
-				A1F1744D1CC8BBAC000C603A /* CHCancelBg.png */,
-				A1F1744E1CC8BBAC000C603A /* CHConfirmBg.png */,
-				A1F1743B1CC8A05E000C603A /* iconfont-duigou@2x.png */,
-				A1F1743C1CC8A05E000C603A /* iconfont-duigou@3x.png */,
-				A1F1743D1CC8A05E000C603A /* iconfont-jiancharenyuan@2x.png */,
-				A1F1743E1CC8A05E000C603A /* iconfont-jiancharenyuan@3x.png */,
-				A1F1743F1CC8A05E000C603A /* iconfont-tianjia@2x.png */,
-				A1F174401CC8A05E000C603A /* iconfont-tianjia@3x.png */,
-				A1F174411CC8A05E000C603A /* Oval 281@2x.png */,
-				A1F174421CC8A05E000C603A /* Oval 281@3x.png */,
 				A1F1743A1CC8A05E000C603A /* 病历iOS切图 */,
 				A1F1742B1CC87FFE000C603A /* LaunchScreen.storyboard */,
 				A1F1742E1CC87FFE000C603A /* Info.plist */,
@@ -171,19 +141,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1F174441CC8A05E000C603A /* iconfont-duigou@3x.png in Resources */,
-				A1F174481CC8A05E000C603A /* iconfont-tianjia@3x.png in Resources */,
-				A1F174471CC8A05E000C603A /* iconfont-tianjia@2x.png in Resources */,
-				A1F1744F1CC8BBAC000C603A /* CHCancelBg.png in Resources */,
 				A1F1742D1CC87FFE000C603A /* LaunchScreen.storyboard in Resources */,
-				A1F174451CC8A05E000C603A /* iconfont-jiancharenyuan@2x.png in Resources */,
-				A1F174431CC8A05E000C603A /* iconfont-duigou@2x.png in Resources */,
-				A1F174461CC8A05E000C603A /* iconfont-jiancharenyuan@3x.png in Resources */,
 				A1F1742A1CC87FFE000C603A /* Assets.xcassets in Resources */,
-				A1F1744A1CC8A05E000C603A /* Oval 281@3x.png in Resources */,
-				A1F174501CC8BBAC000C603A /* CHConfirmBg.png in Resources */,
 				A1F174281CC87FFE000C603A /* Main.storyboard in Resources */,
-				A1F174491CC8A05E000C603A /* Oval 281@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

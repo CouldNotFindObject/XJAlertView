@@ -18,10 +18,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hr2-u4-OWG">
-                                <rect key="frame" x="198" y="333" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="41" y="59" width="60" height="30"/>
+                                <state key="normal" title="选择模式"/>
                                 <connections>
                                     <action selector="bb:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mkE-hn-NtE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LqD-qi-Xe1">
+                                <rect key="frame" x="63" y="163" width="30" height="30"/>
+                                <state key="normal" title="成功"/>
+                                <connections>
+                                    <action selector="successAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rKS-Jc-YVx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zBW-8J-Jcs">
+                                <rect key="frame" x="56" y="224" width="45" height="30"/>
+                                <state key="normal" title="一堆字"/>
+                                <connections>
+                                    <action selector="showTextAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8WK-vs-bZw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QLH-Z7-tc2">
+                                <rect key="frame" x="41" y="108" width="285" height="30"/>
+                                <state key="normal" title="验证码(计时器还写死的) 具体逻辑还没完成"/>
+                                <connections>
+                                    <action selector="checkNumAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="G7c-5o-3cA"/>
                                 </connections>
                             </button>
                         </subviews>
