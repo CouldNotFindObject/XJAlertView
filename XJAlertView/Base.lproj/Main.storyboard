@@ -45,6 +45,13 @@
                                     <action selector="checkNumAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="G7c-5o-3cA"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qoh-Px-HOR">
+                                <rect key="frame" x="46" y="277" width="50" height="30"/>
+                                <state key="normal" title="Default"/>
+                                <connections>
+                                    <action selector="defaultAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a2Y-Y7-ywK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>

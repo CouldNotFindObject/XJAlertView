@@ -35,7 +35,9 @@ class CHAlertView: UIView {
     var checkNumTf:UITextField? //验证码输入框
     var timerBtn:UIButton? //倒计时Button
     var confirmBtn:UIButton? //确认button
-    var successInfo:String? //成功提示信息
+    var cancelBtn:UIButton? //取消button
+    var textLabel:UILabel? //文本label
+    var infoStr:String? //提示信息
     var cancelTitle:String? //取消button的title
     var confirmTitle:String? //确认button的title
     
@@ -91,17 +93,22 @@ class CHAlertView: UIView {
      */
     init(successInfo:String?) {
         super.init(frame: UIScreen.mainScreen().bounds)
-        self.successInfo = successInfo
+        infoStr = successInfo
         sty = .Success
         setUI(.Success)
         
     }
     
-    /**未完成*/
+    /***/
     init(text:String, confirmTilte:String, cancelTitle:String, confirm: ((alertView:CHAlertView)-> Void)?, cancel: ((alertView:CHAlertView)-> Void)?){
         super.init(frame: UIScreen.mainScreen().bounds)
         sty = .Default
+        infoStr = text
         setUI(.Default)
+        confirmBlock = confirm
+        cancelBlock = cancel
+        setConfirmBtnTitle(confirmTilte, state: UIControlState.Normal)
+        setCancelBtnTitle(cancelTitle, state: UIControlState.Normal)
     }
     
     init(text:String, confirm: ((alertView:CHAlertView)-> Void)?){
@@ -118,6 +125,16 @@ class CHAlertView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setConfirmBtnTitle(title:String, state:UIControlState) {
+        confirmBtn?.setTitle(title, forState: state)
+        confirmBtn?.sizeToFit()
+    }
+    
+    func setCancelBtnTitle(title:String, state:UIControlState) {
+        cancelBtn?.setTitle(title, forState: state)
+        cancelBtn?.sizeToFit()
+    }
+    
     func setUI(style: CHAlertStyle) {
         mainView = UIView(frame: CGRectMake(0,0,UIScreen.mainScreen().bounds.width - 50,154))
         mainView.backgroundColor = UIColor.clearColor()
@@ -128,15 +145,42 @@ class CHAlertView: UIView {
         addSubview(backView)
         addSubview(mainView)
         switch style {
-        case .Default: break
+        case .Default:
+            mainView.frame = CGRectMake(0,0,UIScreen.mainScreen().bounds.width - 50,165)
+            shadowImageView.frame = CGRectMake(-8, -8, mainView.bounds.width + 16, mainView.bounds.height + 16)
+            textLabel = UILabel(frame: CGRectMake(0,0,mainView.frame.width - 40, 80))
+            textLabel?.text = infoStr
+            textLabel?.font = UIFont.systemFontOfSize(16)
+            textLabel?.numberOfLines = 0
+            textLabel?.textColor = UIColor(red: 50.0/255, green: 50.0/255, blue: 50.0/255, alpha: 1)
+            textLabel?.center = CGPointMake(mainView.frame.width / 2, mainView.frame.height / 2 - 20)
+            mainView.addSubview(textLabel!)
+            cancelBtn = UIButton(type: .System)
+            cancelBtn!.setTitle("取消", forState: .Normal)
+            cancelBtn!.titleLabel?.font = UIFont.systemFontOfSize(16)
+            cancelBtn!.setBackgroundImage(UIImage(named: "CHCancelBg"), forState: UIControlState.Normal)
+            cancelBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            cancelBtn!.frame = CGRectMake(48, mainView.bounds.size.height - 46 , 60, 30)
+            cancelBtn!.addTarget(self, action: #selector(cancelBtnAction(_:)), forControlEvents: .TouchUpInside)
+            mainView.addSubview(cancelBtn!)
+            
+            confirmBtn = UIButton(type: .System)
+            confirmBtn!.setTitle("确定", forState: .Normal)
+            confirmBtn!.titleLabel?.font = UIFont.systemFontOfSize(16)
+            confirmBtn!.setBackgroundImage(UIImage(named: "CHConfirmBg"), forState: UIControlState.Normal)
+            confirmBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            confirmBtn!.frame = CGRectMake(mainView.bounds.size.width - 48 - 60, mainView.bounds.size.height - 46 , 60, 30)
+            confirmBtn!.addTarget(self, action: #selector(confirmBtnAction(_:)), forControlEvents: .TouchUpInside)
+            mainView.addSubview(confirmBtn!)
+            
         case .Text:
             mainView.frame = CGRectMake(0,0,UIScreen.mainScreen().bounds.width - 50,165)
             shadowImageView.frame = CGRectMake(-8, -8, mainView.bounds.width + 16, mainView.bounds.height + 16)
-            let textLb = UILabel(frame: CGRectMake(20, 27, mainView.bounds.width - 40, 66))
-            textLb.text = "您输入的信息查询无结果，请核对信息是否和就诊时一致。如有疑问请拨打400-000-000"
-            textLb.font = UIFont.systemFontOfSize(16)
-            textLb.numberOfLines = 0
-            mainView.addSubview(textLb)
+            textLabel = UILabel(frame: CGRectMake(20, 27, mainView.bounds.width - 40, 66))
+            textLabel?.text = "您输入的信息查询无结果，请核对信息是否和就诊时一致。如有疑问请拨打400-000-000"
+            textLabel?.numberOfLines = 0
+            textLabel?.font = UIFont.systemFontOfSize(16)
+            mainView.addSubview(textLabel!)
             confirmBtn = UIButton(type: .System)
             confirmBtn!.setTitle("确定", forState: .Normal)
             confirmBtn!.titleLabel?.font = UIFont.systemFontOfSize(16)
@@ -165,14 +209,14 @@ class CHAlertView: UIView {
             mainView.frame = CGRectMake(0,0,UIScreen.mainScreen().bounds.width - 50,154 + CGFloat(options.count-2) * 30)
             shadowImageView.frame = CGRectMake(-8, -8, mainView.bounds.width + 16, mainView.bounds.height + 16)
             
-            let cancelBtn = UIButton(type: .System)
-            cancelBtn.setTitle("取消", forState: .Normal)
-            cancelBtn.titleLabel?.font = UIFont.systemFontOfSize(16)
-            cancelBtn.setBackgroundImage(UIImage(named: "CHCancelBg"), forState: UIControlState.Normal)
-            cancelBtn.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-            cancelBtn.frame = CGRectMake(48, mainView.bounds.size.height - 46 , 60, 30)
-            cancelBtn.addTarget(self, action: #selector(cancelBtnAction(_:)), forControlEvents: .TouchUpInside)
-            mainView.addSubview(cancelBtn)
+            cancelBtn = UIButton(type: .System)
+            cancelBtn!.setTitle("取消", forState: .Normal)
+            cancelBtn!.titleLabel?.font = UIFont.systemFontOfSize(16)
+            cancelBtn!.setBackgroundImage(UIImage(named: "CHCancelBg"), forState: UIControlState.Normal)
+            cancelBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            cancelBtn!.frame = CGRectMake(48, mainView.bounds.size.height - 46 , 60, 30)
+            cancelBtn!.addTarget(self, action: #selector(cancelBtnAction(_:)), forControlEvents: .TouchUpInside)
+            mainView.addSubview(cancelBtn!)
             
             confirmBtn = UIButton(type: .System)
             confirmBtn!.setTitle("确定", forState: .Normal)
@@ -226,7 +270,7 @@ class CHAlertView: UIView {
             mainView.addSubview(successIv)
             
             let successLb = UILabel(frame: CGRectMake(30, mainView.frame.size.height - 60,mainView.frame.size.width - 60,21))
-            if let infoSucceed = successInfo {
+            if let infoSucceed = infoStr {
                 
                 successLb.text = infoSucceed
             } else {
@@ -235,7 +279,6 @@ class CHAlertView: UIView {
             successLb.textAlignment = .Center
             successLb.font = UIFont.systemFontOfSize(15)
             successLb.textColor = UIColor(red: 6.0 / 255, green: 192/255.0, blue: 200/255.0, alpha: 1)
-
             mainView.addSubview(successLb)
             
         }

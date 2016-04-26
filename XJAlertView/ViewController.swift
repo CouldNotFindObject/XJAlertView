@@ -50,5 +50,16 @@ class ViewController: UIViewController {
         a.showAlert()
 
     }
+    
+    
+    @IBAction func defaultAction(sender: AnyObject) {
+        let a = CHAlertView(text: "是否确定是确定是确定是确定是确定是否确定是否确定是否确定是否确定是否确定是否确定是否确定是否确定是否确定是否确定是否确定是否确定是否确定是否确定是否确定", confirmTilte: "朕准了", cancelTitle: "去你丫的", confirm: { (alertView) in
+            print("我点同意了")
+            }) { (alertView) in
+                print("不行不行")
+        }
+        a.showAlert()
+    }
+    
 }
 
